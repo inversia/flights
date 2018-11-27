@@ -1,0 +1,62 @@
+@font-face {
+    font-family:'Ubuntu';
+    font-style:normal;
+    font-weight:100;
+    src:url(./fonts/Ubuntu.ttf);
+}
+
+* {
+    box-sizing:border-box;
+}
+
+html {
+    width:100%;
+    height:100%;
+}
+
+body {
+    font-family:Ubuntu;
+/*     background-image: linear-gradient(to bottom, #d8fbff , #fff0e0); */
+    background-image: linear-gradient(to bottom, #ffffff , #fff0e0);
+    width:100%;
+    height: 100%;
+}
+
+.menu {
+    width:100%;
+    display:flex;
+}
+
+    .menu input {
+        flex:1;
+        display:block;
+        outline:none;
+        font-size:4vw;
+        padding:0.3em 0.5em;  
+    }
+
+    .menu input::placeholder {
+        opacity:0.6; 
+    }
+
+    .buttons {
+        display:flex;
+        right:0;
+
+    } 
+    .buttons button {
+        display:block;
+        border:1px solid #9e9e9e69;
+        background:white;
+        padding:0 1em;
+        outline:none;
+        font-size:2vw;
+        color:#757575;
+        cursor:pointer;
+        transition:all 0.25s ease-in-out;
+    }
+
+    .buttons button.active {
+        background:#fff1e2;
+        font-size:2.5vw;
+    }
