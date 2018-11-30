@@ -165,6 +165,10 @@ body:before {
             left:0.15em;
         }
 
+    .infoboard .row {
+        color: rgba(0,0,0,0.8);
+    }
+
         .row > * {
             flex:1;
         }
@@ -188,10 +192,14 @@ body:before {
 
         .row .city {
             flex:0.6;
+            font-weight: bold;
         }
+
         .row .flight-number {
             flex:0.3;
         }
+
         .row .flight-status {
-            
+            opacity: 0.75;
         }
+
