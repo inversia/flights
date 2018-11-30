@@ -1,7 +1,7 @@
 const $  = document.querySelector   .bind (document)
 const $$ = document.querySelectorAll.bind (document)
 
-// форматирует дату вида "2018-11-29T00:00:00%2B03:00"
+// форматирует дату вида "2018-11-29T00:00:00%2B03:00" из timestamp
 const fmtDate = x => new Date (x).toLocaleDateString ().split ('/').reverse ().join ('-') + 'T00:00:00%2B03:00' // символ + ескейпится как %2B
 
 // загружает данные из API Шереметьево
@@ -16,13 +16,14 @@ async function loadData ({ search    = '',
     return (await fetch (`https://cors.io/?https://www.svo.aero/bitrix/timetable/?search=${search}&direction=${direction}&dateStart=${dateStart}&dateEnd=${dateEnd}&perPage=${perPage}&page=${page}&locale=${locale}`)).json ()
 }
 
+// преобразует "2018-11-29T12:34:00" в "12:34" (извлекает время)
 const extractTime = str => str.match (/T(\d\d:\d\d)/)[1]
 
 function renderRowContents (row, { flt, mar1: { city_eng, city }, t_st, t_et, vip_status_eng }) {
 
     if (t_et === null) t_et = t_st
 
-    for (const [className, innerText] of [['city', city_eng], ['flight-number', flt], ['time', extractTime (t_st)],['flight-status', vip_status_eng]]) {
+    for (const [className, innerText] of [['flight-number', flt], ['city', city_eng], ['time', extractTime (t_st)],['flight-status', vip_status_eng]]) {
        
         const el = document.createElement ('DIV')
 
@@ -39,44 +40,39 @@ function renderRowContents (row, { flt, mar1: { city_eng, city }, t_st, t_et, vi
 }
 
 async function refresh () {
-
-    // const items = (await loadData ({ search: '116' })).items
-
-    const { items } = await loadData ({ search: '10' })
-
+    
     const infoboard = $('.infoboard')
+    const searchValue = $('#search').value
 
     infoboard.innerHTML = ''
+    document.documentElement.classList.add('loading')
 
-    for (const item of items) {
+    try {
 
-        const row = document.createElement ('DIV')
+        const { items } = await loadData ({ search: $('#search').value, direction: document.forms.options.direction.value })
 
-        row.className = 'row'
+        if (searchValue !== $('#search').value) return // если searchValue устарел, то ничего не делать
 
-        renderRowContents (row, item)
-    
-        infoboard.appendChild (row)
+        for (const item of items) {
+
+            const row = document.createElement ('DIV')
+
+            row.className = 'row'
+
+            renderRowContents (row, item)
+
+            infoboard.appendChild (row)
+        }
+
+        document.documentElement.classList.remove ('loading')
+
+    } catch (e) { // если произошла ошибка...
+
+        console.log (e)
+        
+        // если searchValue актуален, то повторить загрузку
+        if (searchValue === $('#search').value) refresh ()
     }
-
-    document.documentElement.classList.remove('loading')
-
 }
 
-document.addEventListener ('DOMContentLoaded', () => {  
-    
-    const active = $('button.active')
-    const buttons = $$('.buttons button')
-    
-    for (const button of buttons){
-        
-        button.onclick = () => {
-
-            for (const otherButton of buttons) {
-                otherButton.classList.toggle ('active', button === otherButton)
-            }
-        }
-    }
-
-    refresh ()
-})
+document.addEventListener ('DOMContentLoaded', refresh)

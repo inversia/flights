@@ -27,28 +27,6 @@ html {
     height:100%;
 }
 
-    html.loading:after {
-
-        padding-top:3.5vw;
-        content: 'loading...';
-        width:100%;
-        height:100%;
-        position:fixed;
-        z-index:1;
-        top:0;
-        left:0;
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        font-size:6vw;
-        animation: change 0.7s ease-in-out alternate infinite;
-    }
-
-    html.loading .infoboard {
-        display:none;
-    }
-
-
 body {
     width:100%;
     height:100%;
@@ -82,7 +60,7 @@ body:before {
         display:block;
         outline:none;
         font-size:4vw;
-        padding:0.3em 0.95em;  
+        padding:0.3em 0.46em;  
     }
 
     .menu input::placeholder {
@@ -92,80 +70,126 @@ body:before {
     .buttons {
         display:flex;
         right:0;
-
     } 
 
-    .buttons button {
-        font-family:'Ubuntu';
-        display:block;
-        border:1px solid #9e9e9e69;
-        background:white;
-        padding:0 1em;
-        outline:none;
-        font-size:2vw;
-        color:#757575;
-        cursor:pointer;
-        transition:all 0.25s ease-in-out;
-    }
+        .buttons * {
+            user-select:none;
+        }
 
-    .buttons button.active {
-        background:#fff1e2;
-        color:#f7992e;
-        border:2px solid orange;
-        box-shadow:inset 1px 2px 8px #0000001f;
-}
-/*         font-size:2.5vw; */
+        .buttons input {
+            display: none;
+        }
+
+        .buttons label {
+            display: flex;
+        }
+
+        .buttons label span {
+            font-family:'Ubuntu';
+            display:flex;
+            align-items:center;
+            border:1px solid #9e9e9e69;
+            background:white;
+            padding:0 1em;
+            outline:none;
+            font-size:2vw;
+            color:#757575;
+            cursor:pointer;
+            transition:all 0.25s ease-in-out;
+        }
+
+        .buttons input:checked ~ span {
+            background:#fff1e2;
+            color:#f7992e;
+            border:2px solid orange;
+            box-shadow:inset 1px 2px 8px #0000001f;
     }
+    /*         font-size:2.5vw; */
+        }
 
 .infoboard {
     display:flex;
     width:100%;
     height:100%;
     flex-direction:column;
-
 }
 
-    .infoboard .row {
+    .infoboard:before {
+        padding-top:4vw;
+        position:absolute;
+        top:0;
+        left:0;
+        width:100%;
+        height:100%;
+        display:none;
+        align-items:center;
+        justify-content:center;
+        font-size:6vw;
+        opacity:0.15;
+    }
+    
+    html.loading .infoboard:before {
+        display:flex;
+        content: 'loading...';
+        animation: change 0.7s ease-in-out alternate infinite;
+    }
+
+    .infoboard:empty:before {
+        display:flex;
+        content:'nothing found :(';
+    }
+
+    .row {
         display:flex;
         flex-direction:row;
         font-size:2.5vw;
-        padding:1em 0.3em;
+        padding:1.2vw 0;
+        padding-left:2vw;
     }
 
-    .infoboard .row.info {
-        border-bottom:2px solid #FF9800;
-        border-top:2px solid #FF9800;
+    body.delayed .infoboard .row:not(.delayed) {
+        display:none;
+    }
+
+    .row.info {
         text-transform: uppercase;
-        font-size:2.5vw;
-
+        font-size:1vw;
+        opacity:0.25;
+        padding-top:2em;
     }
 
-        .infoboard .row > * {
+        .row.info > * {
+            position:relative;
+            left:0.15em;
+        }
+
+        .row > * {
             flex:1;
         }
 
-        .infoboard .row .time {
-            padding:0 1em;
+        .row .time {
+            flex:0.35;
         }
 
-        .infoboard .row.delayed .time {
+        .row.delayed .time {
             color:#ff9901;
         }
 
-        .infoboard .row.delayed .time:after {
+        .row.delayed .time:after {
             content:'delayed';
             position:absolute;
-            font-size:1.4vw;
-            padding-left:0.4em;
+            font-size:1.2vw;
+            margin-top:-0.05em;
+            margin-left:0.5em;
 /*             z-index:-1; */
         }
 
-        .infoboard .row .city {
-            padding-left:1.29em;
+        .row .city {
+            flex:0.6;
         }
-        .infoboard .row .flight-number {
-            
+        .row .flight-number {
+            flex:0.3;
         }
-        .infoboard .row .flight-status {
+        .row .flight-status {
             
         }
