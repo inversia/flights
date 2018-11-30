@@ -19,11 +19,13 @@ async function loadData ({ search    = '',
 // преобразует "2018-11-29T12:34:00" в "12:34" (извлекает время)
 const extractTime = str => str.match (/T(\d\d:\d\d)/)[1]
 
-function renderRowContents (row, { flt, mar1: { city_eng, city }, t_st, t_et, vip_status_eng }) {
+function renderRowContents (row, { flt, mar1, mar2, t_st, t_et, vip_status_eng }) {
 
     if (t_et === null) t_et = t_st
-
-    for (const [className, innerText] of [['flight-number', flt], ['city', city_eng], ['time', extractTime (t_st)],['flight-status', vip_status_eng]]) {
+    
+    const city = document.forms.options.direction.value === 'arrival' ? mar1.city_eng : mar2.city_eng
+    
+    for (const [className, innerText] of [['flight-number', flt], ['city', city], ['time', extractTime (t_st)],['flight-status', vip_status_eng]]) {
        
         const el = document.createElement ('DIV')
 

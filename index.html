@@ -9,7 +9,7 @@
    <div class="menu">
 		<input id="search" type="text" placeholder="enter flight number" oninput="refresh()">
 		<form name="options" class="buttons">
-			<label><input type="radio" name="direction" value="arriving" onchange="refresh()" checked><span>arriving</span></input></label>
+			<label><input type="radio" name="direction" value="arrival" onchange="refresh()" checked><span>arriving</span></input></label>
 			<label><input type="radio" name="direction" value="departure" onchange="refresh()"><span>departing</span></input></label>
 			<label><input type="checkbox" name="delayed" onchange="document.body.classList.toggle('delayed', document.forms.options.delayed.checked)"><span>delayed</span></label>
 		</form>
