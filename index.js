@@ -2,7 +2,7 @@ const $  = document.querySelector   .bind (document)
 const $$ = document.querySelectorAll.bind (document)
 
 // форматирует дату вида "2018-11-29T00:00:00%2B03:00" из timestamp
-const fmtDate = x => new Date (x).toLocaleDateString ().split ('/').reverse ().join ('-') + 'T00:00:00%2B03:00' // символ + ескейпится как %2B
+const fmtDate = x => new Date (x).toISOString ().replace (/T.+/, '') + 'T00:00:00%2B03:00' // символ + ескейпится как %2B
 
 // загружает данные из API Шереметьево
 async function loadData ({ search    = '',
